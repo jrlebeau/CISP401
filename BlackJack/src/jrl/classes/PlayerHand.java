@@ -4,77 +4,104 @@ import java.util.ArrayList;
 
 public class PlayerHand {
 	
-	ArrayList<Card> playerCards;
-	int handTotal;
-	int handTotalWithOneAce;
-	int handTotalWithTwoAce;
+	private ArrayList<Card> playerCards;
+	private int handTotal;
+	private int currentBet;
+	private boolean canDoubleDown;
+	private boolean canSplit;
 
 	public PlayerHand() {
-		setHandTotal(0);
-		setHandTotalWithOneAce(0);
-		setHandTotalWithTwoAce(0);
-		
+		handTotal = 0;
+		playerCards = new ArrayList<Card>();
+		currentBet = 0;
+		canDoubleDown = false;
+		canSplit = false;
 	}
 	
 	public void addCardToHand(Card c) {
 		playerCards.add(c);
+		handTotal();
 	}
 	
 	public int getHandTotal(){
 		return handTotal;
 	}
 	
-	private void setHandTotal(int value) {
-		handTotal = value;
+	public int getCurrentBet() {
+		return currentBet;
+	}
+	public void setCurrentBet(int currentBet) {
+		this.currentBet = currentBet;
 	}
 	
-	public int getHandTotalWithOneAce() {
-		return handTotalWithOneAce;
+	public ArrayList<Card> getHand() {
+		return playerCards;
 	}
 	
-	private void setHandTotalWithOneAce(int value) {
-		handTotalWithOneAce = value;
+	public Card getCardFromHand(int i) {
+		return playerCards.get(i);
 	}
 	
-	public int getHandTotalWithTwoAce() {
-		return handTotalWithTwoAce;
+	public boolean getCanDoubleDown() {
+		return canDoubleDown;
+	}
+	public void setCanDoubleDown(boolean dd) {
+		if (handTotal == 1) {
+			canSplit = true;
+		} else {
+			canSplit = false;
+		}
 	}
 	
-	private void setHandTotalWithTwoAce(int value) {
-		handTotalWithTwoAce = value;
+	public boolean getCanSplit() {
+		return canSplit;
+	}
+	public void setCanSplit() {
+		if (playerCards.get(0).getValue() == 8 && playerCards.get(1).getValue() == 8) {
+			canSplit = true;
+		} else {
+			canSplit = false;
+		}
+	}
+	
+	public boolean hasAces() {
+		boolean hasAces = false;
+		for (Card c : playerCards) {
+			if (c.isAce()) {
+				hasAces = true;
+			}
+		}
+		return hasAces;
+	}
+	
+	public void removeCardsFromHand() {
+		for (Card c : playerCards) {
+			playerCards.remove(c);
+		}
+		handTotal = 0;
 	}
 	
 	public void handTotal() {
 		int cardValue = 0;
-		boolean hasOneAce = false;
-		boolean hasTwoAce = false;
-		
+		int total = 0;
 		for (Card c : playerCards) {
 			cardValue = c.getValue();
-			setHandTotal(handTotal + cardValue);
 			if (c.isAce()) {
-				if (!hasOneAce) {
-					setHandTotalWithOneAce(handTotal + 1);
-					hasOneAce = true;
+				if (total + 11 > 21) {
+					total = total + 1;
 				} else {
-					setHandTotalWithOneAce(handTotal + cardValue);
-					if (!hasTwoAce){
-						setHandTotalWithTwoAce(handTotal + 1);
-						hasTwoAce = true;
-					} else {
-						setHandTotalWithTwoAce(handTotal + cardValue);
-					}
+					total = total + 11;
 				}
 			} else {
 				// not an Ace
-				setHandTotalWithOneAce(handTotal + cardValue);
-				setHandTotalWithTwoAce(handTotal + cardValue);				
+				total = total + cardValue;
 			}
 		}
+		handTotal = total;
 	}
 	
 	public boolean isBusted() {
-		if (handTotal > 21 && handTotalWithOneAce > 21 && handTotalWithTwoAce > 21) {
+		if (handTotal > 21) {
 			return true;
 		} else {
 			return false;
@@ -82,10 +109,14 @@ public class PlayerHand {
 	}
 	
 	public boolean isBlackJack() {
-		if (handTotal == 21 || handTotalWithOneAce == 21 || handTotalWithTwoAce == 21) {
+		if (handTotal == 21 ) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+	
+	public void doubleBet() {
+		currentBet = currentBet * 2;
 	}
 }

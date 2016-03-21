@@ -1,19 +1,23 @@
 package jrl.classes;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Scanner;
 
 public class Player {
 
 	private String id;
 	private double balance;
 	private String formattedBalance;
-	private PlayerHand hand;
+	public PlayerHand hand;
+	private int currentBet;
 	
 	public Player(String id, double startBalance) {
 		setId(id);
 		setBalance(startBalance);
 		hand = new PlayerHand();
+		currentBet = 0;
 	}
 
 	public String getId() {
@@ -41,6 +45,21 @@ public class Player {
 			return false;
 		}
 	}
+	public ArrayList<Card> getHand() {
+		ArrayList<Card> cards = new ArrayList<Card>();
+		for (Card c : hand.getHand()) {
+			cards.add(c);
+		}
+		return cards;
+	}
+	
+	public void removeCardsFromHand() {
+		hand.removeCardsFromHand();
+	}
+	
+	public void addCardToHand(Card c) {
+		hand.addCardToHand(c);
+	}
 	
 	private void setFormattedBalance(double balance) {
 		NumberFormat balanceFormat = NumberFormat.getCurrencyInstance(Locale.US);
@@ -61,4 +80,16 @@ public class Player {
 		setBalance(total);
 		
 	}
+	public void setPlayerBet( Scanner s ) {
+		int bet = 0;
+		System.out.print(this.getId() + " has " + this.getBalance() + " to bet.  Enter amount to bet on this hand: ");
+		bet = Integer.parseInt(s.nextLine());
+//		input.close();
+		if (bet > 0 && bet < this.getBalance()) {
+			this.hand.setCurrentBet(bet);
+		} else {
+			this.hand.setCurrentBet(0);
+		}
+	}
+
 }

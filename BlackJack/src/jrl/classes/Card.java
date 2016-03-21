@@ -50,7 +50,10 @@ public class Card {
 	}
 	
 	public String toString() {
-		return "Card: " + cardNumber + " of " + suite;
+		if (isAce()) {
+			return "Card: Ace of " + suite;
+		}else {
+			return "Card: " + cardNumber + " of " + suite;
+		}
 	}
-
 }
