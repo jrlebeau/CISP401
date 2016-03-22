@@ -46,10 +46,10 @@ public class PlayerHand {
 		return canDoubleDown;
 	}
 	public void setCanDoubleDown(boolean dd) {
-		if (handTotal == 1) {
-			canSplit = true;
+		if (handTotal == 11) {
+			canDoubleDown = true;
 		} else {
-			canSplit = false;
+			canDoubleDown = false;
 		}
 	}
 	
@@ -72,13 +72,6 @@ public class PlayerHand {
 			}
 		}
 		return hasAces;
-	}
-	
-	public void removeCardsFromHand() {
-		for (Card c : playerCards) {
-			playerCards.remove(c);
-		}
-		handTotal = 0;
 	}
 	
 	public void handTotal() {

@@ -7,10 +7,33 @@ public class Card {
 	private Suites suite;
 	private int cardNumber;
 	private int value;
+	private String cardName;
 	
 	public Card (Suites suite, int cardNumber) {
 		this.setSuite(suite);
 		this.setCardNumber(cardNumber);
+		switch (cardNumber) {
+		case 1:
+			cardName = "Ace";
+			setValue(cardNumber);
+			break;
+		case 11:
+			cardName = "Jack";
+			setValue(cardNumber);
+			break;
+		case 12:
+			cardName = "Queen";
+			setValue(cardNumber);
+			break;
+		case 13:
+			cardName = "King";
+			setValue(cardNumber);
+			break;
+		default:
+			cardName = Integer.toString(cardNumber);
+			setValue(cardNumber);
+			break;
+		}
 	}
 	
 	public Suites getSuite() {
@@ -24,11 +47,14 @@ public class Card {
 	}
 	private void setCardNumber(int cardNumber) {
 		this.cardNumber = cardNumber;
-		setValue(this.cardNumber);
 	}
 	public int getValue() {
 		return value;
 	}
+	public String getCardName() {
+		return cardName;
+	}
+	
 	private void setValue(int cardNumber) {
 		if (cardNumber == 1) {
 			this.value = 11;
@@ -42,7 +68,7 @@ public class Card {
 	}
 	
 	public boolean isAce() {
-		if (this.value == 1){
+		if (this.cardNumber == 1){
 			return true;
 		} else {
 			return false;
@@ -50,10 +76,6 @@ public class Card {
 	}
 	
 	public String toString() {
-		if (isAce()) {
-			return "Card: Ace of " + suite;
-		}else {
-			return "Card: " + cardNumber + " of " + suite;
-		}
+		return "Card: " + cardName + " " + suite + " ";
 	}
 }

@@ -7,7 +7,7 @@ import jrl.constants.Suites;
 
 public class CardDeck {
 
-	private static int numberOfCards = 51;
+	private static int numberOfCards = 52;
 	
 	public ArrayList<Card> deckOfCards;
 	
@@ -19,6 +19,9 @@ public class CardDeck {
 		generateSuite(Suites.DIAMONDS);
 		generateSuite(Suites.HEARTS);
 		generateSuite(Suites.SPADES);
+//		for (Card c : deckOfCards) {
+//			System.out.println(c.toString());
+//		}
 		
 		Collections.shuffle(deckOfCards);
 	}
@@ -37,7 +40,7 @@ public class CardDeck {
 	}
 	
 	private void generateSuite(Suites suite) {
-		for (int i=0; i<12; i++) {
+		for (int i=0; i<13; i++) {
 			Card c = new Card(suite, i+1);
 			deckOfCards.add(c);
 		}

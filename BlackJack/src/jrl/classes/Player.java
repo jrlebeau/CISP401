@@ -11,13 +11,11 @@ public class Player {
 	private double balance;
 	private String formattedBalance;
 	public PlayerHand hand;
-	private int currentBet;
 	
 	public Player(String id, double startBalance) {
 		setId(id);
 		setBalance(startBalance);
 		hand = new PlayerHand();
-		currentBet = 0;
 	}
 
 	public String getId() {
@@ -54,7 +52,7 @@ public class Player {
 	}
 	
 	public void removeCardsFromHand() {
-		hand.removeCardsFromHand();
+		hand = new PlayerHand();
 	}
 	
 	public void addCardToHand(Card c) {
