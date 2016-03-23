@@ -1,8 +1,11 @@
 package jrl.classes;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class PlayerHand {
+	CardSorter cardSorter;
 	
 	private ArrayList<Card> playerCards;
 	private int handTotal;
@@ -20,7 +23,7 @@ public class PlayerHand {
 	
 	public void addCardToHand(Card c) {
 		playerCards.add(c);
-		handTotal();
+		setHandTotal();
 	}
 	
 	public int getHandTotal(){
@@ -74,10 +77,12 @@ public class PlayerHand {
 		return hasAces;
 	}
 	
-	public void handTotal() {
+	public void setHandTotal() {
 		int cardValue = 0;
 		int total = 0;
-		for (Card c : playerCards) {
+		cardSorter = new CardSorter(playerCards);
+		ArrayList<Card> sortedCards = cardSorter.getSortedCardsByNumber();
+		for (Card c : sortedCards) {
 			cardValue = c.getValue();
 			if (c.isAce()) {
 				if (total + 11 > 21) {

@@ -1,13 +1,16 @@
 package jrl.classes;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+
 import jrl.constants.Suites;
 
 public class Card {
 	
-	private Suites suite;
 	private int cardNumber;
 	private int value;
 	private String cardName;
+	private Suites suite;
 	
 	public Card (Suites suite, int cardNumber) {
 		this.setSuite(suite);
@@ -75,7 +78,19 @@ public class Card {
 		}
 	}
 	
+	public static Comparator<Card> numberComparator = new Comparator<Card>() {
+		@Override
+		public int compare(Card c1, Card c2) {
+			if (c1.cardNumber > c2.cardNumber) {
+				return c2.cardNumber;
+			} else {
+				return c1.cardNumber;
+			}
+		}
+	};
+	
 	public String toString() {
 		return "Card: " + cardName + " " + suite + " ";
 	}
 }
+
