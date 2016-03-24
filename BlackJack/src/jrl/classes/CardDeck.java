@@ -7,7 +7,7 @@ import jrl.constants.Suites;
 
 public class CardDeck {
 
-	private static int numberOfCards = 52;
+	private static int numberOfCards = 51;
 	
 	public ArrayList<Card> deckOfCards;
 	
@@ -24,11 +24,13 @@ public class CardDeck {
 //		}
 		
 		Collections.shuffle(deckOfCards);
+		currentCardIndex = 0;
 	}
 	
 	public void shuffleDeck() {
 		
 		Collections.shuffle(deckOfCards);
+		currentCardIndex = 0;
 	}
 	
 	public Card getNextCard() {

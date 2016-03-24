@@ -43,13 +43,6 @@ public class Player {
 			return false;
 		}
 	}
-	public ArrayList<Card> getHand() {
-		ArrayList<Card> cards = new ArrayList<Card>();
-		for (Card c : hand.getHand()) {
-			cards.add(c);
-		}
-		return cards;
-	}
 	
 	public void removeCardsFromHand() {
 		hand = new PlayerHand();

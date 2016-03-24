@@ -1,6 +1,5 @@
 package jrl.classes;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 
 import jrl.constants.Suites;
@@ -16,24 +15,24 @@ public class Card {
 		this.setSuite(suite);
 		this.setCardNumber(cardNumber);
 		switch (cardNumber) {
-		case 1:
+		case 13:
 			cardName = "Ace";
 			setValue(cardNumber);
 			break;
-		case 11:
+		case 10:
 			cardName = "Jack";
 			setValue(cardNumber);
 			break;
-		case 12:
+		case 11:
 			cardName = "Queen";
 			setValue(cardNumber);
 			break;
-		case 13:
+		case 12:
 			cardName = "King";
 			setValue(cardNumber);
 			break;
 		default:
-			cardName = Integer.toString(cardNumber);
+			cardName = Integer.toString(cardNumber + 1);
 			setValue(cardNumber);
 			break;
 		}
@@ -59,19 +58,45 @@ public class Card {
 	}
 	
 	private void setValue(int cardNumber) {
-		if (cardNumber == 1) {
+		switch (cardNumber) {
+		case 1:
+			this.value = 2;
+			break;
+		case 2:
+			this.value = 3;
+			break;
+		case 3:
+			this.value = 4;
+			break;
+		case 4:
+			this.value = 5;
+			break;
+		case 5:
+			this.value = 6;
+			break;
+		case 6:
+			this.value = 7;
+			break;
+		case 7:
+			this.value = 8;
+			break;
+		case 8:
+			this.value = 9;
+			break;
+		case 9:
+			this.value = 10;
+			break;
+		case 13:
 			this.value = 11;
-		} else {
-			if (cardNumber > 10) {
-				this.value = 10;
-			} else {
-				this.value = cardNumber;
-			}
+			break;
+		default:
+			this.value = 10;
+			break;
 		}
 	}
 	
 	public boolean isAce() {
-		if (this.cardNumber == 1){
+		if (this.cardNumber == 13){
 			return true;
 		} else {
 			return false;
@@ -81,16 +106,18 @@ public class Card {
 	public static Comparator<Card> numberComparator = new Comparator<Card>() {
 		@Override
 		public int compare(Card c1, Card c2) {
-			if (c1.cardNumber > c2.cardNumber) {
-				return c2.cardNumber;
-			} else {
-				return c1.cardNumber;
-			}
+			return c1.cardNumber - c2.cardNumber;
+//			if (c1.cardNumber < c2.cardNumber) {
+//				return c2.cardNumber;
+//			} else {
+//				return c1.cardNumber;
+//			}
 		}
 	};
 	
 	public String toString() {
-		return "Card: " + cardName + " " + suite + " ";
+		return "Card: " + cardName + " " + suite;
 	}
+	
 }
 

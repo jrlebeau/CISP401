@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import jrl.classes.Card;
 import jrl.classes.CardDeck;
-import jrl.classes.CardSorter;
 import jrl.classes.Dealer;
 import jrl.classes.Player;
 
@@ -17,12 +16,13 @@ public class Main {
 		
 		CardDeck cd = new CardDeck();
 		Dealer dealer = new Dealer("Dealer", 1000000);
-		ArrayList<Player> players = new ArrayList();
+		ArrayList<Player> players = new ArrayList<>();
 		players.add(new Player("Player 1", 1000));
 		players.add(new Player("Player 2", 1500));
 		Scanner input = new Scanner(System.in);
 		
 		while (continueGame ) {
+			cd.shuffleDeck();
 			// deal hand
 			for (Player p  :players) {
 				p.removeCardsFromHand();
@@ -138,8 +138,7 @@ public class Main {
 							dealer.payPlayer(p);
 						}
 					}
-				}
-				
+				}				
 			}
 //			Scanner input = new Scanner(System.in);
 			System.out.print("Play another hand? ");

@@ -1,8 +1,6 @@
 package jrl.classes;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class PlayerHand {
 	CardSorter cardSorter;
@@ -80,7 +78,11 @@ public class PlayerHand {
 	public void setHandTotal() {
 		int cardValue = 0;
 		int total = 0;
-		cardSorter = new CardSorter(playerCards);
+		ArrayList<Card> sCards = new ArrayList<>(playerCards.size());
+		for (Card c : playerCards) {
+			sCards.add(c);
+		}
+		cardSorter = new CardSorter(sCards);
 		ArrayList<Card> sortedCards = cardSorter.getSortedCardsByNumber();
 		for (Card c : sortedCards) {
 			cardValue = c.getValue();
