@@ -13,6 +13,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		boolean continueGame = true;
+		boolean continueHand = true;
 		
 		CardDeck cd = new CardDeck();
 		Dealer dealer = new Dealer("Dealer", 1000000);
@@ -26,7 +27,28 @@ public class Main {
 			// deal hand
 			for (Player p  :players) {
 				p.removeCardsFromHand();
-				p.setPlayerBet(input);
+				boolean playerHasBet = false;
+				int bet = 0;
+				while ( !playerHasBet) {
+					System.out.print(p.getId() + " has " + p.getBalance() + " to bet.  Enter amount to bet on this hand: ");
+					try {
+						bet = Integer.parseInt(input.nextLine());
+					}
+					catch (Exception e) {
+						System.out.println("Enter amount between 1 and " + p.getBalance());
+						continue;
+					}
+					if (bet > 0 && bet < p.getBalance()) {
+						p.hand.setCurrentBet(bet);
+						playerHasBet = true;
+						
+					} else if (bet == 0){
+						p.hand.setCurrentBet(0);
+						break;
+					} else {
+						System.out.println(p.getId() + " does not have that much to bet - enter 0 to skip hand");
+					}
+				}
 				if (p.hand.getCurrentBet() > 0) 
 				{
 					dealer.dealHand(p, cd);
@@ -37,17 +59,20 @@ public class Main {
 					
 				} else {
 					System.out.println(p.getId() + " did not bet!");
-					players.remove(p);
 				}
 				System.out.println(" ");
 			}
 			dealer.removeCardsFromHand();
 			dealer.dealerHand(cd);
 			System.out.println(dealer.getId() + " Dealer has: " + dealer.hand.getCardFromHand(1) + " showing");
+			System.out.println(" ");
 			
 			// play the hand
-			boolean continueHand = true;
 			for (Player p : players) {
+				continueHand = true;
+				if (p.hand.getCurrentBet() == 0){
+					continueHand = false;				
+				}
 				while (continueHand) {
 					System.out.print(p.getId() + " has: ");
 						for (Card c : p.hand.getHand()) {
@@ -62,7 +87,7 @@ public class Main {
 						}
 					}
 					if (p.hand.isBlackJack()) {
-						System.out.println(p.getId() + " has 21");
+						System.out.println(p.getId() + " BlackJack");
 						continueHand = false;
 					} else {
 //						Scanner input = new Scanner(System.in);
@@ -82,12 +107,13 @@ public class Main {
 						}
 					}
 				}
-				if (p.hand.isBusted()) {
-					System.out.println(p.getId() + " bust!!");
-				} else {
-					System.out.println(p.getId() + " has " + p.hand.getHandTotal());
+				if (p.hand.getCurrentBet() > 0){
+					if (p.hand.isBusted()) {
+						System.out.println(p.getId() + " bust!!");
+					} else {
+						System.out.println(p.getId() + " has " + p.hand.getHandTotal());
+					}					
 				}
-				continueHand = true;
 			}
 			
 			// dealers turn
@@ -99,7 +125,7 @@ public class Main {
 				}
 				System.out.println(" ");
 				if (dealer.hand.isBlackJack()) {
-					System.out.println(dealer.getId() + "has 21");
+					System.out.println(dealer.getId() + " BlackJack");
 					continueHand = false;
 				} else {
 					if (dealer.hand.getHandTotal() < 17) {
@@ -118,27 +144,29 @@ public class Main {
 			System.out.println(" ");
 			System.out.println("Finish this hand ");
 			for (Player p : players) {
-				if (p.hand.isBusted()) {
-					System.out.println(p.getId() + " Losses!!  - busted");
-					dealer.bustPlayer(p);
-				} else {
-					if (dealer.hand.isBusted()) {
-						System.out.println(p.getId() + " Wins!! - dealer busted");
-						dealer.payPlayer(p);
+				if (p.hand.getCurrentBet() > 0) {
+					if (p.hand.isBusted()) {
+						System.out.println(p.getId() + " Losses!!  - busted");
+						dealer.bustPlayer(p);
 					} else {
-						if (p.hand.getHandTotal() == dealer.hand.getHandTotal()) {
-							System.out.println(p.getId() + " pushed ");
-						}
-						if (p.hand.getHandTotal() < dealer.hand.getHandTotal()) {
-							System.out.println(p.getId() + " Losses!! ");
-							dealer.bustPlayer(p);
-						}
-						if (p.hand.getHandTotal() > dealer.hand.getHandTotal()) {
-							System.out.println(p.getId() + " Wins!! ");
+						if (dealer.hand.isBusted()) {
+							System.out.println(p.getId() + " Wins!! - dealer busted");
 							dealer.payPlayer(p);
+						} else {
+							if (p.hand.getHandTotal() == dealer.hand.getHandTotal()) {
+								System.out.println(p.getId() + " pushed ");
+							}
+							if (p.hand.getHandTotal() < dealer.hand.getHandTotal()) {
+								System.out.println(p.getId() + " Losses!! ");
+								dealer.bustPlayer(p);
+							}
+							if (p.hand.getHandTotal() > dealer.hand.getHandTotal()) {
+								System.out.println(p.getId() + " Wins!! ");
+								dealer.payPlayer(p);
+							}
 						}
-					}
-				}				
+					}				
+				}
 			}
 //			Scanner input = new Scanner(System.in);
 			System.out.print("Play another hand? ");

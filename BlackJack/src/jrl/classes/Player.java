@@ -69,18 +69,5 @@ public class Player {
 	public void subtractFromBalance(double amount) {
 		double total = balance - amount;
 		setBalance(total);
-		
 	}
-	public void setPlayerBet( Scanner s ) {
-		int bet = 0;
-		System.out.print(this.getId() + " has " + this.getBalance() + " to bet.  Enter amount to bet on this hand: ");
-		bet = Integer.parseInt(s.nextLine());
-//		input.close();
-		if (bet > 0 && bet < this.getBalance()) {
-			this.hand.setCurrentBet(bet);
-		} else {
-			this.hand.setCurrentBet(0);
-		}
-	}
-
 }

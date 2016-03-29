@@ -9,7 +9,7 @@ public class CardDeck {
 
 	private static int numberOfCards = 51;
 	
-	public ArrayList<Card> deckOfCards;
+	private ArrayList<Card> deckOfCards;
 	
 	private int currentCardIndex;
 	
